@@ -1,5 +1,5 @@
 import sqlalchemy
-from models import User
+from models import User, Product, Role
 
 from extensions import db
 from main import create_app
@@ -12,7 +12,6 @@ def create_tables(db):
 
 
 def fill_db_test(db):
-    from models import User, Product, Role
 
     user1 = User(username='user1', password='pass1')
     user2 = User(username='user2', password='pass2')
@@ -45,8 +44,6 @@ def test_cost_constraint():
     of 5. Will throw an IntegrityError.
     """
 
-    from models import db, Product
-
     user = db.session.query(User).all()[0]
 
     user.products.append(Product(productName='p1', amountAvailable=10, cost=6, sellerID=user))
@@ -57,8 +54,9 @@ def test_cost_constraint():
         logger.info("Test passed, cost can only be multiples of 5.")
 
 
-app = create_app()
-db.init_app(app)
-with app.app_context():
-    create_tables(db)
-    fill_db_test(db)
+if __name__ == '__main__':
+    app = create_app()
+    db.init_app(app)
+    with app.app_context():
+        create_tables(db)
+        fill_db_test(db)

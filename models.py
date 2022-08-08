@@ -1,4 +1,3 @@
-# creates SQLALCHEMY object
 import jwt
 from flask import json
 from flask_bcrypt import generate_password_hash
@@ -62,7 +61,6 @@ class User(db.Model, SerializerMixin):
 
 class Product(db.Model, SerializerMixin):
     serialize_rules = ('-products.user',)
-    # serialize_rules = ('-products.user', '-seller')
 
     id = db.Column(db.Integer, primary_key=True)
     amount_available = db.Column(db.Integer)
